@@ -17,6 +17,7 @@ formulas=(
 git
 wget
 curl
+tmux
 tree
 openssl
 z
@@ -26,7 +27,9 @@ jq
 node
 pyenv
 "--without-etcdir zsh"
+zsh
 zsh-completions
+zplug
 "--with-cocoa --srgb emacs"
 cask
 hub
