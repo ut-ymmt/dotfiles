@@ -24,22 +24,14 @@ z
 colordiff
 awscli
 jq
-node
 pyenv
-"--without-etcdir zsh"
 zsh
 zsh-completions
 zplug
-"--with-cocoa --srgb emacs"
-cask
-hub
-tig
-node
-python3
-lua
-"vim --with-lua"
 mysql
 sqlite
+node
+yarn
 )
 
 "brew tap..."
@@ -88,6 +80,15 @@ brew cask cleanup
 pyenv install anaconda3-4.2.0
 pyenv global anaconda3-4.2.0
 
+# javascript library
+yarns=(
+aws-sdk
+)
+
+echo "start brew cask install apps..."
+for yarn in "${yarns[@]}"; do
+  yarn add $yarn
+done
 
 # dotfiles関係
 set -u
