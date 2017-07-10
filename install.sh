@@ -24,7 +24,11 @@ z
 colordiff
 awscli
 jq
+binwalk
+imagemagic
+p7zip
 pyenv
+pyenv-virtualenv
 zsh
 zsh-completions
 zplug
