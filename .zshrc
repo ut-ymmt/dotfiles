@@ -92,7 +92,7 @@ SPROMPT="%r is correct? [n,y,a,e]: "
 RPROMPT="%1(v|%F{yellow}%1v%f|)%F{red}%T%f"
 
 ### history 設定
-HISTFILE=~/.zsh_historyx
+HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
