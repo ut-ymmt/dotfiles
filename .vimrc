@@ -70,6 +70,9 @@ set wrapscan
 set hlsearch
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
+"クリップボード共有
+set clipboard+=unnamed
+
 "カラースキーム
 colorscheme monokai
 set background=dark
