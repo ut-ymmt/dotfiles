@@ -1,2 +1,2 @@
 100
-['Shougo/dein.vim', 'Shougo/neocomplcache.vim', 'Shougo/neocomplete.vim', 'Shougo/neosnippet-snippets', 'Shougo/unite.vim', 'Shougo/vimproc.vim', 'basyura/TweetVim', 'basyura/bitly.vim', 'basyura/twibill.vim', 'derekwyatt/vim-scala', 'h1mesuke/unite-outline', 'itchyny/lightline.vim', 'mattn/webapi-vim', 'scrooloose/nerdtree', 'tyru/open-browser.vim']
+['Shougo/dein.vim', 'Shougo/neocomplcache.vim', 'Shougo/neocomplete.vim', 'Shougo/neosnippet-snippets', 'Shougo/unite.vim', 'Shougo/vimproc.vim', 'basyura/TweetVim', 'basyura/bitly.vim', 'basyura/twibill.vim', 'derekwyatt/vim-scala', 'h1mesuke/unite-outline', 'itchyny/lightline.vim', 'kannokanno/previm', 'mattn/webapi-vim', 'plasticboy/vim-markdown', 'scrooloose/nerdtree', 'tyru/open-browser.vim']

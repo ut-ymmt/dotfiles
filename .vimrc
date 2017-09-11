@@ -15,6 +15,11 @@ call dein#add('Shougo/neocomplcache.vim')
 call dein#add('scrooloose/nerdtree')
 call dein#add('derekwyatt/vim-scala')
 
+" markdown
+call dein#add('plasticboy/vim-markdown')
+call dein#add('kannokanno/previm')
+call dein#add('tyru/open-browser.vim')
+
 " tweetvim
 call dein#add('basyura/TweetVim')
 call dein#add('mattn/webapi-vim')
@@ -120,6 +125,12 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
 " keybined
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
+
+"PreVim
+augroup PrevimSettings
+    autocmd!
+    autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+augroup END
 
 " lightline系
 let g:lightline = {

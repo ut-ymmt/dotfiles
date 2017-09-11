@@ -1,29 +1,31 @@
-language: generic
+language: vim
 
-sudo: false
-
-install:
-  - git clone --depth=1 https://github.com/thinca/vim-themis /tmp/themis
-  - (if ! test -d $HOME/vim-$VIM_VERSION/bin; then
-       git clone https://github.com/vim/vim $HOME/vim &&
-       cd $HOME/vim &&
-       git checkout v$VIM_VERSION &&
-       ./configure --prefix=$HOME/vim-$VIM_VERSION &&
-       make &&
-       make install;
-     fi)
-
-cache:
-  directories:
-    - $HOME/vim-$VIM_VERSION
+os:
+  - linux
+  - osx
 
 env:
-  - VIM_VERSION=8.0.0000
-  - VIM_VERSION=7.4
-  - VIM_VERSION=7.3
-  - VIM_VERSION=7.2.051
+  - TEST=package
+  - TEST=latest
+
+before_script: |
+  if [ "$TEST" = "package" ]; then
+    if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      sudo apt-get -y update
+      sudo apt-get -y install vim
+    fi
+  else
+    cd ..
+    git clone --depth 1 https://github.com/vim/vim
+    cd vim
+    ./configure --with-features=huge
+    make
+    sudo make install
+    export PATH="/usr/local/bin:$PATH"
+    cd "$TRAVIS_BUILD_DIR"
+  fi
+  sudo -H pip install virtualenv
 
 script:
-  - export PATH=$HOME/vim-$VIM_VERSION/bin:$PATH
-  - vim --version
-  - /tmp/themis/bin/themis --reporter spec
+  - make test
+  - make doc
