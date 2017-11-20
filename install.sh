@@ -10,7 +10,9 @@ git submodule update
 
 echo "start setup..."
 for f in .??*; do
-  ln -snfv ~/dotfiles/"$f" ~/
+  if [ $f != '.git'  -a $f != '.gitignore' ] ; then
+    ln -snfv $THIS_DIR/"$f" ~/
+  fi
 done
 
 bin=(
@@ -22,6 +24,9 @@ for f in "${bin[@]}"; do
   ln -snfv ~/dotfiles/bin/"$f" /usr/local/bin/"$f"
   chmod 755 /usr/local/bin/"$f"
 done
+
+cd $THIS_DIR/.vim/dein
+git clone https://github.com/Shougo/dein.vim.git 
 
 cat << END
 
