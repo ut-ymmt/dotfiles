@@ -21,7 +21,7 @@ battery
 )
 
 for f in "${bin[@]}"; do
-  ln -snfv ~/dotfiles/bin/"$f" /usr/local/bin/"$f"
+  ln -snfv $THIS_DIR/bin/"$f" /usr/local/bin/"$f"
   chmod 755 /usr/local/bin/"$f"
 done
 
