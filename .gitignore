@@ -1,2 +1,4 @@
 .DS_Store
 dein.vim
+dein
+.fzf

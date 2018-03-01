@@ -50,6 +50,10 @@ set backspace=2
 set number
 set cursorline
 
+" スペース
+set list
+set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+
 "set cursorcolumn
 set virtualedit=onemore
 set smartindent

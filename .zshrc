@@ -284,3 +284,5 @@ function tmux_automatically_attach_session()
     fi
 }
 tmux_automatically_attach_session
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

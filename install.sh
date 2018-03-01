@@ -9,6 +9,12 @@ git submodule init
 git submodule update
 
 echo "start setup..."
+
+# fzf install
+cd $THIS_DIR
+git clone --depth 1 https://github.com/junegunn/fzf.git $THIS_DIR/.fzf
+$THIS_DIR/.fzf/install
+
 for f in .??*; do
   if [ $f != '.git'  -a $f != '.gitignore' ] ; then
     ln -snfv $THIS_DIR/"$f" ~/
@@ -25,8 +31,11 @@ for f in "${bin[@]}"; do
   chmod 755 /usr/local/bin/"$f"
 done
 
+# dein install
 cd $THIS_DIR/.vim/dein
-git clone https://github.com/Shougo/dein.vim.git 
+git clone https://github.com/Shougo/dein.vim.git
+
+
 
 cat << END
 

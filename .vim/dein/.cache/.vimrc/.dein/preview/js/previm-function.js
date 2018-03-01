@@ -3,7 +3,7 @@ return 1;
 }
 
 function getFileName() {
-return "/Users/yuta_yamamoto/Memo/MicroService.mkd";
+return "/Users/yuta_yamamoto/Desktop/jpstore-document/jpstore-inheriting.md";
 }
 
 function getFileType() {
@@ -11,9 +11,9 @@ return "markdown";
 }
 
 function getLastModified() {
-return "2017/09/11 (月) 15:58:46";
+return "2018/03/01 (木) 17:25:49";
 }
 
 function getContent() {
-return "# マイクロサービスアーキテクチャ\n\n## 1. マイクロサービス\n\n### マイクロサービスとは?\n強調して動作する小規模で自立的なサービス  \n従来のも乗りシックなサービス  \n\n- モノリシックなサービスはアジャイルな開発には不向き  \n- システム結合度が大きく一つの変更の影響がとても大きくなるため日になんどもデプロイができない\n- 一度のデプロイの変更が大きくなり、バグの特定が困難\n- コードベースの規模が大きすぎるため変更に必要な箇所がわからない\n- 大きすぎるシステムは変更や解体にリスクが高すぎて誰も触りたがらない\n\nマイクロサービス  \n- マイクロサービスではサービスの境界をビジネスの境界合わせる\n- サービス毎にコードを管理する事で特定のコードがある場所を明確化\n\n凝集性(関連するコードが集まるようにする)  \n- モノリシックなサービスではコードを抽象化することにより実現\n- マイクロサービスではサービス毎にコードを管理することで実現\n\n大きさの判断、どの程度を小さいと判断するのか  \n- 開発者は感覚でコードが大きいか小さいかわかっている\n- 詳しくは後の章で\n\nマイクロサービスは独立したエンテティ(自律性)、単独のサービスや独自のOSのプロセスなど  \nサービスはAPI経由で連携する(独立性があり結合度が低い)  \n\nマイクロサービスの利点  \n- サービス毎に適切な異なる技術を扱うことができる\n- 1つのサービスの変更が、そのサービス外まで波及しずらい(変更に柔軟に対応できる)\n\n欠点  \n- 複数の技術の採用にはオーバーヘッドを伴う\n  + ある程度の制約を課した上で開発環境を決定する事で緩和\n\n回復性  \n- モノリシックなサービスではサービスに障害が発生すると全てが停止する\n- マイクロサービスではある部分へ障害が発生するとその機能にのみ障害が発生するだけで済む\n  + ただしこれらを得るためには分散システムが対処する必要のある新たな障害・原因を理解する必要がある\n\n\nスケールする\n- マイクロサービスでは負荷がかかる部分だけをスケールさせる事で最小限の規模で動作させる事ができる\n\n\n合成可能性\n- 第三者が利用可能なAPIの提供により再利用が可能\n\n\n銀の弾丸などない\n- マイクロサービスは魔法のようなどこにでも適応すれば良い都合のいいものではない\n- マイクロサービス化するということは分散システムの複雑な面を取り入れるという事\n  + システムのスケーリングはスケールアップではなくスケールアウトするように\n  + CAP定理やACID属性\n  + 分散トランザクションの問題\n\no\n## 2. 進化的アーキテクト\n\n我々はソフトウェアエンジニア、ソフトウェアアーキテクトと呼ばれるが建築士ではなくどちらかというと都市計画化の方が近い\n\n\n";
+return "# jpstore 引き継ぎ\n\n## 経緯\n元々jpstoreを外注していたBridgeという会社との契約を辞め、社内で開発を引き取る事になった\n- ECH:jpstoreの運用を行なってくれている会社\n- Bridge:元jpstoreの開発を行なってくれていた会社\n\n## GitHubリポジトリ\n|リポジトリ名|URL|備考|\n|---|---|---|\n|jpstore|https://github.com/dwangojp/dwjp-store--jpstore.dwango.jp|jpstoreのアプリケーションとtravis+codedeployのデプロイスクリプトが管理されている|\n|jpstore-cloudformation|https://github.com/dwangojp/paas-store--jpstore.dwango.jp--cloudformation|CloudFormationテンプレート、S3同期の構成の都合上2つのテンプレートに分かれている|\n|jpstore-packer-template|https://github.com/dwangojp/paas-store--jpstore.dwango.jp--packer|CloudFormationで利用するamiの作成を行うためのテンプレート、os-base-provisonの更新時などに更新を行う必要がある| \n\n## 基本構成\n### 構成図\n![](//localhost/Users/yuta_yamamoto/Desktop/jpstore-document/./img/jpstore-overview.png)\n\n### jpstore基本構成要素\nEC2、ELB、AutoScaling、RDSの構成\n  * 一般ユーザのアクセスとは別に管理コンソールへのアクセス経路がある\n  * ニコニコ市場からも商品画像が参照されている\n\n\n### メールの利用に関して\njpstoreでは商品の発送やユーザからの問い合わせに対しメールサーバが必要\n- [メール経路の詳細](./jpstore-mail.info.md)\n\n### 海外からのアクセス\n- 2018年1月末より海外からDoS攻撃を受けたため、海外アクセスのみRoute53のGeoRoutingでS3へ逃している\n- 海外からのアクセスにはmaintenanceページが表示されている\n## 環境構築方法\n- CloudFormation\n\n## デプロイ\n- hogehoge\n## bridgeが構築したjpostoreの構成\n- bridgeから引き継いだ資料がDropBoxへまとまっている-[Dropbox](https://www.dropbox.com/sh/zh0fne24j9aosmf/AAAxhd5ZM29BWygjvxToZIAna?dl=0)\n\n## apendix\n- [2017/12 jpstore負荷試験レポート](https://taiga.dwango.io/project/admin-paas/wiki/201712-jpstore-stress-test)\n- [blog-jpstore.dwango.jp廃止に伴う作業](https://taiga.dwango.io/project/admin-paas/wiki/blog-jpstore-closed)\n\n\n";
 }

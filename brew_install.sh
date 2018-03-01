@@ -40,6 +40,10 @@ mysql
 sqlite
 node
 yarn
+tree
+rsync
+binwalk
+sqlite
 )
 
 "brew tap..."
