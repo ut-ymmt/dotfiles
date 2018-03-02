@@ -24,6 +24,7 @@ done
 bin=(
 get_ssid
 battery
+show-ip
 )
 
 for f in "${bin[@]}"; do
