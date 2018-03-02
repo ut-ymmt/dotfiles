@@ -1,0 +1,15 @@
+#!/bin/bash
+
+AWS_ACCOUNT=$1
+KIND_OF_IP=$2
+
+if [ -z $KIND_OF_IP ]; then
+  KIND_OF_IP='PrivateIpAddress'
+fi
+
+if [ -z $AWS_ACCOUNT ]; then
+  echo 'usage: show-ip [AWS_ACCOUNT_PROFILE] [Option PrivateIpAddress or PublicIpAddress]'
+  exit 1
+fi
+
+aws --profile $AWS_ACCOUNT ec2 describe-instances | jq -c ".Reservations[].Instances[] | {InstanceId, ${KIND_OF_IP}, InstanceName: (.Tags[] | select(.Key==\"Name\").Value)}"!/bin/bash
