@@ -12,4 +12,4 @@ if [ -z $AWS_ACCOUNT ]; then
   exit 1
 fi
 
-aws --profile $AWS_ACCOUNT ec2 describe-instances | jq -c ".Reservations[].Instances[] | {InstanceId, ${KIND_OF_IP}, InstanceName: (.Tags[] | select(.Key==\"Name\").Value)}"!/bin/bash
+aws --profile $AWS_ACCOUNT ec2 describe-instances | jq -c ".Reservations[].Instances[] | {InstanceId, ${KIND_OF_IP}, InstanceName: (.Tags[] | select(.Key==\"Name\").Value)}"
