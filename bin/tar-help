@@ -1,0 +1,17 @@
+#!/bin/bash
+
+TAR_DESCRIPTION=$(cat << EOS
+Usage:
+  tar.gz:
+    Compression: tar -zcvf {xxxx}.tar.gz {directory}
+    Decompression: tar -zxvf {xxxx}.tar.gz
+  tar:
+    Compression: tar -cvf {xxxx}.tar {directory}
+    Decompression: tar -xvf {xxxx}.tar
+  zip:
+    Compression: zip -r {xxxx}.zip {directory}
+    Decompression: unzip {xxxx}.zip
+EOS
+)
+
+echo "$TAR_DESCRIPTION"

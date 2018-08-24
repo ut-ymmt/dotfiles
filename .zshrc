@@ -37,6 +37,9 @@ zsh_conf=~/.zsh/conf
 . $zsh_conf/alias-init.zsh     # aliasの設定
 . $zsh_conf/python-init.zsh    # pythonの設定
 . $zsh_conf/path.zsh
+. $zsh_conf/node-init.zsh      # node.jsの設定
+. $zsh_conf/ruby-init.zsh
+. $zsh_conf/go-init.zsh
 
 ### 色付けで色の名前が使えたりとか
 autoload -Uz add-zsh-hook
@@ -223,6 +226,8 @@ compinit -u
 
 # tmux関係
 
+alias tmux='tmux -u'
+
 function is_exists() { type "$1" >/dev/null 2>&1; return $?; }
 function is_osx() { [[ $OSTYPE == darwin* ]]; }
 function is_screen_running() { [ ! -z "$STY" ]; }
@@ -286,3 +291,16 @@ function tmux_automatically_attach_session()
 tmux_automatically_attach_session
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "${HOME}/google-cloud-sdk/path.zsh.inc" ]; then source "${HOME}/google-cloud-sdk/path.zsh.inc"; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ]; then source "${HOME}/google-cloud-sdk/completion.zsh.inc"; fi
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
