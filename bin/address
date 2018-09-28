@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# IPアドレスを2進数に変換する
+# 実行例
+# $ ./address.sh 172.24.140.1/26
+# Netmask: 11111111 11111111 11111111 11000000
+# Address: 10101100 00011000 10001100 00000000
+
+address=$(echo ${1} | awk -F"/" '{print $1}')
+netmask=$(echo ${1} | awk -F"/" '{print $2}')
+
+octet1=$(echo "$address" | awk -F"." '{print $1}')
+octet2=$(echo "$address" | awk -F"." '{print $2}')
+octet3=$(echo "$address" | awk -F"." '{print $3}')
+octet4=$(echo "$address" | awk -F"." '{print $4}')
+
+octet1_bin=$(echo "obase=2; ibase=10;" $octet1 | bc)
+octet1_bin=$(printf %08d $octet1_bin)
+
+octet2_bin=$(echo "obase=2; ibase=10;" $octet2 | bc)
+octet2_bin=$(printf %08d $octet2_bin)
+
+octet3_bin=$(echo "obase=2; ibase=10;" $octet3 | bc)
+octet3_bin=$(printf %08d $octet3_bin)
+
+octet4_bin=$(echo "obase=2; ibase=10;" $octet4 | bc)
+octet4_bin=$(printf %08d $octet4_bin)
+
+if [ -n "$netmask" ]
+  then
+    for i in $(seq 1 32)
+    do
+      if [ $i -le $((netmask)) ]
+      then
+        netmask_bin+="1"
+      else
+        netmask_bin+="0"
+      fi
+
+      if [ $(( i % 8 )) = 0 ]
+      then
+        netmask_bin+=" "
+      fi
+    done
+    echo "Netmask: $netmask_bin"
+  fi
+
+echo "Address: $octet1_bin $octet2_bin $octet3_bin $octet4_bin"

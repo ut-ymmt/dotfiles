@@ -26,6 +26,7 @@ get_ssid
 battery
 show-ip
 tar-help
+address
 )
 
 for f in "${bin[@]}"; do
