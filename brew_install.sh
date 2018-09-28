@@ -14,36 +14,35 @@ echo "ok. run brew upgrade..."
 brew upgrade --all
 
 formulas=(
-git
-wget
-curl
-tmux
-tree
-openssl
-z
-colordiff
 awscli
-jq
 binwalk
-python3 #vim luaのために必要
+binwalk
+colordiff
+curl
+ghkw
+git
 imagemagic
-reattach-to-user-namespace
+jq
 lua
-"vim --with-lua"
+mysql
+node
+openssl
 p7zip
 pyenv
 pyenv-virtualenv
+python3 # vim luaのために必要
+"vim --with-lua"
+reattach-to-user-namespace
+rsync
+sqlite
+tmux
+tree
+wget
+yarn
+z
+zplug
 zsh
 zsh-completions
-zplug
-mysql
-sqlite
-node
-yarn
-tree
-rsync
-binwalk
-sqlite
 )
 
 "brew tap..."
@@ -52,6 +51,8 @@ brew tap homebrew/versions
 brew tap homebrew/homebrew-php
 brew tap homebrew/apache
 brew tap sanemat/font
+brew tap kyoshidajp/ghkw
+
 
 echo "start brew install apps..."
 for formula in "${formulas[@]}"; do
@@ -59,23 +60,23 @@ for formula in "${formulas[@]}"; do
 done
 
 casks=(
+alfred
+atom
+bettertouchtool
+cyberduck
+docker
 dropbox
 evernote
-skitch
-bettertouchtool
 google-chrome
 google-japanese-ime
-slack
-alfred
 iterm2
 libreoffice
-cyberduck
-vlc
-atom
-docker
-virtualbox
+skitch
+slack
 vagrant
 vagrant-manager
+virtualbox
+vlc
 )
 
 echo "start brew cask install apps..."
@@ -95,6 +96,7 @@ pyenv global anaconda3-4.2.0
 # javascript library
 yarns=(
 aws-sdk
+serverless
 )
 
 echo "start brew cask install apps..."
