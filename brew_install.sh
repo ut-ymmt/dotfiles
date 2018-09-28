@@ -16,7 +16,6 @@ brew upgrade --all
 formulas=(
 awscli
 binwalk
-binwalk
 colordiff
 curl
 ghkw
