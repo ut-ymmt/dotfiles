@@ -83,14 +83,8 @@ for cask in "${casks[@]}"; do
   brew cask install $cask
 done
 
-
 brew cleanup
 brew cask cleanup
-
-
-# python pyenv anaconda
-pyenv install anaconda3-4.2.0
-pyenv global anaconda3-4.2.0
 
 # javascript library
 yarns=(
