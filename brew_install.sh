@@ -31,6 +31,7 @@ pyenv
 pyenv-virtualenv
 python3 # vim luaのために必要
 "vim --with-lua"
+rbenv
 reattach-to-user-namespace
 rsync
 sqlite
