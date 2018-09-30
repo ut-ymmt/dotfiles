@@ -18,6 +18,10 @@ for formula in "${formulas[@]}"; do
   yum install $formula || yum upgrade $formula
 done
 
+# dein install
+curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > /tmp/installer.sh
+sh /tmp/installer.sh ~/.vim/dein
+
 cat << END
 
 **************************************************
