@@ -219,7 +219,7 @@ ress() {
 }
 
 # git関係
-fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
+fpath=($(brew --prefix)/share/zsh/functions $fpath)
 
 autoload -U compinit
 compinit -u

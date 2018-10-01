@@ -25,10 +25,7 @@ bin=(
 get_ssid
 battery
 show-ip
-<<<<<<< HEAD
-=======
 mulssh
->>>>>>> de274b07cff8c7f0087ae0d8173edb9d6303b3bf
 tar-help
 address
 )
