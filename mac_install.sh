@@ -25,6 +25,7 @@ bin=(
 get_ssid
 battery
 show-ip
+show-ec2
 mulssh
 tar-help
 address

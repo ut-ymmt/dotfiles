@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Usage
+## mulssh $(./show-ip [AWS_PROFILE] [EC2_NAME_TAG])
+
 if [ -n "$SESSION_NAME" ];then
   session=$SESSION_NAME
 else

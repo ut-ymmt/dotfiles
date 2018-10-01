@@ -1,0 +1,30 @@
+#!/bin/bash
+
+readonly AWS_ACCOUNT=$1
+readonly KIND_OF_IP=$2
+readonly INSTANCE_STATE=$3
+
+if [ -z $KIND_OF_IP ]; then
+  ip_type='PrivateIpAddress'
+elif [ $KIND_OF_IP = 'private' ]; then
+  ip_type='PrivateIpAddress'
+elif [ $KIND_OF_IP = 'public' ]; then
+  ip_type='PublicIpAddress'
+else
+  echo 'usage: show-ip [AWS_ACCOUNT_PROFILE] [Option private or public]'
+  exit 1
+fi
+
+if [ -z $AWS_ACCOUNT ]; then
+  echo 'usage: show-ip [AWS_ACCOUNT_PROFILE] [Option private or public]'
+  exit 2
+fi
+
+if [ -z $KIND_OF_IP ]; then
+  state='running'
+fi
+
+aws --profile $AWS_ACCOUNT ec2 describe-instances \
+  | jq -c ".Reservations[].Instances[] \
+  | select(.State.Name==\"${state}\") \
+  | {InstanceId, ${ip_type}, InstanceName: (.Tags[] | select(.Key==\"Name\").Value)}"
