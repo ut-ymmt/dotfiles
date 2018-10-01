@@ -25,6 +25,10 @@ bin=(
 get_ssid
 battery
 show-ip
+<<<<<<< HEAD
+=======
+mulssh
+>>>>>>> de274b07cff8c7f0087ae0d8173edb9d6303b3bf
 tar-help
 address
 )
@@ -35,10 +39,8 @@ for f in "${bin[@]}"; do
 done
 
 # dein install
-cd $THIS_DIR/.vim/dein
-git clone https://github.com/Shougo/dein.vim.git
-
-
+curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > /tmp/installer.sh
+sh /tmp/installer.sh ~/.vim/dein
 
 cat << END
 

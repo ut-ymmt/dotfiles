@@ -31,6 +31,7 @@ pyenv
 pyenv-virtualenv
 python3 # vim luaのために必要
 "vim --with-lua"
+rbenv
 reattach-to-user-namespace
 rsync
 sqlite
@@ -83,24 +84,17 @@ for cask in "${casks[@]}"; do
   brew cask install $cask
 done
 
-
 brew cleanup
 brew cask cleanup
 
-
-# python pyenv anaconda
-pyenv install anaconda3-4.2.0
-pyenv global anaconda3-4.2.0
-
-# javascript library
+# node.js tools
 yarns=(
-aws-sdk
 serverless
 )
 
 echo "start brew cask install apps..."
 for yarn in "${yarns[@]}"; do
-  yarn add $yarn
+  yarn global add $yarn
 done
 
 cat << END
