@@ -30,8 +30,5 @@ if [ -z $KIND_OF_IP ]; then
   state='running'
 fi
 
-aws --profile $AWS_ACCOUNT ec2 describe-instances | \
-  jq -cr ".Reservations[].Instances[] \
-  | select(.State.Name==\"${state}\") \
-  | select(.Tags[].Key==\"Name\") \
-  | select(.Tags[].Value==\"${EC2_NAME_TAG}\").${ip_type}"
+aws --profile $AWS_ACCOUNT ec2 describe-instances --filter "Name=tag:Name,Values=$EC2_NAME_TAG" | \
+  jq -cr ".Reservations[].Instances[].$ip_type"
