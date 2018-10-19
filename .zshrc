@@ -106,6 +106,10 @@ SAVEHIST=10000
 #bindkey "^N" history-beginning-search-forward-end
 
 ### 補完
+if [ -e ~/.zsh/completions ]; then
+  fpath=(~/.zsh/completions $fpath)
+fi
+
 autoload -U compinit; compinit -C
 
 ### 補完方法毎にグループ化する。

@@ -59,6 +59,11 @@ for formula in "${formulas[@]}"; do
   brew install $formula || brew upgrade $formula
 done
 
+# docker-completions
+mkdir ~/.zsh/completions
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion ~/.zsh/completions/_docker
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion ~/.zsh/completions/_docker-compose
+
 casks=(
 alfred
 atom

@@ -56,3 +56,4 @@ dein
 dein/**
 .fzf
 .zsh/cache
+.zsh/completions
