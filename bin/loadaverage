@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "LA $(uptime | awk -F\  '{print $(NF - 2)}')"

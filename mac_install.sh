@@ -29,6 +29,9 @@ show-ec2
 mulssh
 tar-help
 address
+used-mem
+loadaverage
+pc-running-time
 )
 
 for f in "${bin[@]}"; do
