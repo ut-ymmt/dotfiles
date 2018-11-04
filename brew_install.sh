@@ -95,6 +95,7 @@ brew cask cleanup
 # node.js tools
 yarns=(
 serverless
+firebase-tools
 )
 
 echo "start brew cask install apps..."
