@@ -96,6 +96,7 @@ brew cask cleanup
 yarns=(
 serverless
 firebase-tools
+netlify-cli
 )
 
 echo "start brew cask install apps..."
