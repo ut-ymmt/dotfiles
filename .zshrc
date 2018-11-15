@@ -40,6 +40,7 @@ zsh_conf=~/.zsh/conf
 . $zsh_conf/node-init.zsh      # node.jsの設定
 . $zsh_conf/ruby-init.zsh
 . $zsh_conf/go-init.zsh
+. $zsh_conf/fzf-functions.zsh
 
 ### 色付けで色の名前が使えたりとか
 autoload -Uz add-zsh-hook
