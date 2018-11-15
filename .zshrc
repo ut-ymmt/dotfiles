@@ -15,10 +15,10 @@ p=$PATH;PATH=;/usr/libexec/path_helper -s >> ~/.zprofile;PATH=$p
 
 ### zplug
 source ~/.zplug/init.zsh
-zplug 'zsh-users/zsh-completions'
+zplug 'zsh-users/zsh-completions', lazy:true
 zplug 'zsh-users/zaw'
 zplug 'zsh-users/zsh-syntax-highlighting', defer:2
-zplug 'b4b4r07/enhancd'
+zplug 'b4b4r07/enhancd', lazy:true
 zplug check || zplug install
 
 ### cdr の設定 (zplug load 前に書かないと zaw-cdr がスキップされる)
@@ -309,3 +309,7 @@ if [ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ]; then source "${HOME}/go
 # tabtab source for sls package
 # uninstall by removing these lines or running `tabtab uninstall sls`
 [[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+
+if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
+  zcompile ~/.zshrc
+fi

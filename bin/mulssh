@@ -29,7 +29,7 @@ done
 tmux select-pane -t 0
 
 ### paneの同期モードを設定
-tmux set-window-option synchronize-panes on
+#tmux set-window-option synchronize-panes on
 
 ### セッションにアタッチ
 tmux attach-session -t $session
