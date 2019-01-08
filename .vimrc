@@ -29,6 +29,10 @@ call dein#add('h1mesuke/unite-outline')
 call dein#add('basyura/bitly.vim')
 call dein#add('Shougo/unite.vim')
 
+" terraformc
+call dein#add('hashivim/vim-terraform')
+call dein#add('juliosueiras/vim-terraform-completion')
+
 call dein#end()
 filetype plugin indent on
 
