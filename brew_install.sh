@@ -35,6 +35,7 @@ rbenv
 reattach-to-user-namespace
 rsync
 sqlite
+terminal-notifier
 tmux
 tree
 wget
