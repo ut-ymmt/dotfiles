@@ -87,7 +87,7 @@ else
 fi
 PROMPT2="%_%% "
 SPROMPT="%r is correct? [n,y,a,e]: "
-RPROMPT="%1(v|%F{yellow}%1v%f|)%2(v|%F{magenta}%2v%f|)%F{red}%T%f"
+RPROMPT="%1(v|%F{yellow}%1v%f|)%2(v|%F{cyan}%2v%f|)%F{red}%T%f"
 
 ### history 設定
 HISTFILE=~/.zsh_history
