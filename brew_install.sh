@@ -18,6 +18,7 @@ awscli
 binwalk
 colordiff
 curl
+goenv
 ghkw
 git
 imagemagic

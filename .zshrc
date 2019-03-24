@@ -24,6 +24,7 @@ zplug load
 
 ###
 zsh_conf=~/.zsh/conf
+. $zsh_conf/fzf-functions.zsh
 . $zsh_conf/docker-init.zsh    # dockerの設定
 . $zsh_conf/alias-init.zsh     # aliasの設定
 . $zsh_conf/python-init.zsh    # pythonの設定
@@ -31,7 +32,6 @@ zsh_conf=~/.zsh/conf
 . $zsh_conf/node-init.zsh      # node.jsの設定
 . $zsh_conf/ruby-init.zsh
 . $zsh_conf/go-init.zsh
-. $zsh_conf/fzf-functions.zsh
 . $zsh_conf/terraform-functions.zsh
 
 ### 色付けで色の名前が使えたりとか
@@ -153,13 +153,13 @@ setopt auto_cd  # ディレクトリ名だけで移動
 setopt auto_pushd  # cd したら pushd
 setopt auto_list  # 補完候補が複数ある時に、一覧表示
 setopt auto_menu  # 補完候補が複数あるときに自動的に一覧表示する
-#setopt auto_param_slash
+##setopt auto_param_slash
 setopt list_packed
 setopt list_types
 setopt no_flow_control
 setopt print_eight_bit
 setopt pushd_ignore_dups
-setopt rec_exact
+#setopt rec_exact
 setopt autoremoveslash
 unsetopt list_beep
 setopt complete_in_word  # カーソル位置で補完する。
@@ -277,3 +277,7 @@ fi
 if (which zprof > /dev/null 2>&1) ;then
   zprof
 fi
+
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /Users/yuta_yamamoto/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/yuta_yamamoto/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
