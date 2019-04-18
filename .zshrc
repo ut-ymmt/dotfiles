@@ -15,24 +15,28 @@ p=$PATH;PATH=;/usr/libexec/path_helper -s >> ~/.zprofile;PATH=$p
 
 ### zplug
 source ~/.zplug/init.zsh
-zplug 'zsh-users/zsh-completions', lazy:true
+zplug 'zsh-users/zsh-completions'
+zplug 'zsh-users/zaw'
 zplug 'zsh-users/zsh-syntax-highlighting', defer:2
-zplug 'b4b4r07/enhancd', lazy:true
+zplug 'b4b4r07/enhancd'
 zplug check || zplug install
+
+### cdr の設定 (zplug load 前に書かないと zaw-cdr がスキップされる)
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook is-at-least
+if is-at-least 4.3.10; then
+add-zsh-hook chpwd chpwd_recent_dirs
+zstyle ':chpwd:*' recent-dirs-max 5000
+zstyle ':chpwd:*' recent-dirs-default yes
+fi
 
 zplug load
 
 ###
 zsh_conf=~/.zsh/conf
-. $zsh_conf/fzf-functions.zsh
 . $zsh_conf/docker-init.zsh    # dockerの設定
 . $zsh_conf/alias-init.zsh     # aliasの設定
 . $zsh_conf/python-init.zsh    # pythonの設定
 . $zsh_conf/path.zsh
-. $zsh_conf/node-init.zsh      # node.jsの設定
-. $zsh_conf/ruby-init.zsh
-. $zsh_conf/go-init.zsh
-. $zsh_conf/terraform-functions.zsh
 
 ### 色付けで色の名前が使えたりとか
 autoload -Uz add-zsh-hook
@@ -67,9 +71,7 @@ fi
 function _update_vcs_info_msg() {
     psvar=()
     LANG=en_US.UTF-8 vcs_info
-    tf_workspace_info=$(tf_prompt_info)
     [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
-    [[ -n "$tf_workspace_info" ]] && psvar[2]="$tf_workspace_info"
 }
 add-zsh-hook precmd _update_vcs_info_msg
 zstyle ':vcs_info:bzr:*' use-simple true
@@ -87,17 +89,21 @@ else
 fi
 PROMPT2="%_%% "
 SPROMPT="%r is correct? [n,y,a,e]: "
-RPROMPT="%1(v|%F{yellow}%1v%f|)%2(v|%F{cyan}%2v%f|)%F{red}%T%f"
+RPROMPT="%1(v|%F{yellow}%1v%f|)%F{red}%T%f"
 
 ### history 設定
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
+#autoload history-search-end
+#zle -N history-beginning-search-backward-end history-search-end
+#zle -N history-beginning-search-forward-end history-search-end
+#bindkey "^P" history-beginning-search-backward-end
+#bindkey "^N" history-beginning-search-forward-end
+
 ### 補完
-if [ -e ~/.zsh/completions ]; then
-  fpath=(~/.zsh/completions $fpath)
-fi
+autoload -U compinit; compinit -C
 
 ### 補完方法毎にグループ化する。
 zstyle ':completion:*' format '%B%F{blue}%d%f%b'
@@ -153,13 +159,13 @@ setopt auto_cd  # ディレクトリ名だけで移動
 setopt auto_pushd  # cd したら pushd
 setopt auto_list  # 補完候補が複数ある時に、一覧表示
 setopt auto_menu  # 補完候補が複数あるときに自動的に一覧表示する
-##setopt auto_param_slash
+#setopt auto_param_slash
 setopt list_packed
 setopt list_types
 setopt no_flow_control
 setopt print_eight_bit
 setopt pushd_ignore_dups
-#setopt rec_exact
+setopt rec_exact
 setopt autoremoveslash
 unsetopt list_beep
 setopt complete_in_word  # カーソル位置で補完する。
@@ -175,6 +181,30 @@ setopt always_last_prompt  # 無駄なスクロールを避ける
 ## 自動的に消費時間の統計情報を表示する。
 REPORTTIME=3
 
+### zaw
+bindkey '^[d' zaw-cdr
+bindkey '^[g' zaw-git-branches
+bindkey '^[@' zaw-gitdir
+
+function zaw-src-gitdir () {
+    _dir=$(git rev-parse --show-cdup 2>/dev/null)
+    if [ $? -eq 0 ]
+    then
+        candidates=( $(git ls-files ${_dir} | perl -MFile::Basename -nle \
+                                                   '$a{dirname $_}++; END{delete $a{"."}; print for sort keys %a}') )
+    fi
+
+    actions=("zaw-src-gitdir-cd")
+    act_descriptions=("change directory in git repos")
+}
+
+function zaw-src-gitdir-cd () {
+    BUFFER="cd $1"
+    zle accept-line
+}
+
+zaw-register-src -n gitdir zaw-src-gitdir
+
 # markdownをw3mで見る
 ress() {
     FILENAME=$1
@@ -186,27 +216,12 @@ ress() {
 }
 
 # git関係
-#fpath=($(brew --prefix)/share/zsh/functions $fpath)
+fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
 
-# fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "${HOME}/google-cloud-sdk/path.zsh.inc" ]; then source "${HOME}/google-cloud-sdk/path.zsh.inc"; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ]; then source "${HOME}/google-cloud-sdk/completion.zsh.inc"; fi
-
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+autoload -U compinit
+compinit -u
 
 # tmux関係
-
-alias tmux='tmux -u'
 
 function is_exists() { type "$1" >/dev/null 2>&1; return $?; }
 function is_osx() { [[ $OSTYPE == darwin* ]]; }
@@ -270,14 +285,4 @@ function tmux_automatically_attach_session()
 }
 tmux_automatically_attach_session
 
-if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
-  zcompile ~/.zshrc
-fi
-
-if (which zprof > /dev/null 2>&1) ;then
-  zprof
-fi
-
-# tabtab source for slss package
-# uninstall by removing these lines or running `tabtab uninstall slss`
-[[ -f /Users/yuta_yamamoto/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/yuta_yamamoto/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

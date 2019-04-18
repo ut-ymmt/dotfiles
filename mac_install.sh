@@ -32,11 +32,14 @@ address
 used-mem
 loadaverage
 pc-running-time
+tdl
+fssh
 )
 
+mkdir -p $HOME/bin
 for f in "${bin[@]}"; do
-  ln -snfv $THIS_DIR/bin/"$f" /usr/local/bin/"$f"
-  chmod 755 /usr/local/bin/"$f"
+  ln -snfv $THIS_DIR/bin/"$f" $HOME/bin/"$f"
+  chmod 755 $HOME/bin/"$f"
 done
 
 # dein install
