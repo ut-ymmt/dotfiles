@@ -49,55 +49,6 @@ alias rm='rmtrash'
 autoload -Uz add-zsh-hook
 autoload -U colors && colors
 
-### vsc_info の設定
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git svn hg
-zstyle ':vcs_info:*' formats '(%s)[%b] '
-zstyle ':vcs_info:*' actionformats '(%s)[%b|%a] '
-zstyle ':vcs_info:svn:*' branchformat '%b:r%r'
-precmd () {
-    psvar=()
-    LANG=en_US.UTF-8 vcs_info
-    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
-
-    [[ -t 1 ]] || return
-    [ $EMACS ] && return
-    case $TERM in
-      *xterm*|rxvt|(dt|k|E)term)
-      print -Pn "\e]2;localhost\a"
-      ;;
-    esac
-}
-if is-at-least 4.3.10; then
-  zstyle ':vcs_info:git:*' check-for-changes true
-  zstyle ':vcs_info:git:*' stagedstr "+"
-  zstyle ':vcs_info:git:*' unstagedstr "-"
-  zstyle ':vcs_info:git:*' formats '(%s)[%b]%c%u'
-  zstyle ':vcs_info:git:*' actionformats '(%s)[%b|%a]%c%u'
-fi
-function _update_vcs_info_msg() {
-    psvar=()
-    LANG=en_US.UTF-8 vcs_info
-    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
-}
-add-zsh-hook precmd _update_vcs_info_msg
-zstyle ':vcs_info:bzr:*' use-simple true
-
-function toon {
-  echo -n ""
-}
-
-## プロンプト設定
-if [ $EMACS ]; then
-    export TERM=xterm-256color
-    PROMPT="%F{green}%~%f %{$fg[red]%}>%{$reset_color%} "
-else
-    PROMPT="%F{green}%~%f %{$fg[white]%}$(toon)%{$reset_color%} "
-fi
-PROMPT2="%_%% "
-SPROMPT="%r is correct? [n,y,a,e]: "
-RPROMPT="%1(v|%F{yellow}%1v%f|)%F{red}%T%f"
-
 ### history 設定
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -293,3 +244,5 @@ function tmux_automatically_attach_session()
 tmux_automatically_attach_session
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+eval "$(starship init zsh)"
