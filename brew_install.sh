@@ -18,6 +18,10 @@ awscli
 binwalk
 colordiff
 curl
+dive
+docker-compose
+kubectx
+kustomize
 goenv
 ghkw
 git
@@ -35,25 +39,21 @@ python3 # vim luaのために必要
 rbenv
 reattach-to-user-namespace
 rsync
-sqlite
+terraform
 terminal-notifier
 tmux
 tree
 wget
 yarn
 z
+starship
 zplug
 zsh
 zsh-completions
 )
 
 "brew tap..."
-brew tap homebrew/dupes
-brew tap homebrew/versions
-brew tap homebrew/homebrew-php
-brew tap homebrew/apache
 brew tap sanemat/font
-brew tap kyoshidajp/ghkw
 
 
 echo "start brew install apps..."
@@ -67,23 +67,19 @@ ln -s /Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion ~/.z
 ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion ~/.zsh/completions/_docker-compose
 
 casks=(
-alfred
-atom
 bettertouchtool
 cyberduck
 docker
 dropbox
-evernote
 google-chrome
+google-cloud-sdk
 google-japanese-ime
 iterm2
-libreoffice
-skitch
 slack
 vagrant
 vagrant-manager
 virtualbox
-vlc
+google-cloud-sdk
 )
 
 echo "start brew cask install apps..."
@@ -97,7 +93,6 @@ brew cask cleanup
 # node.js tools
 yarns=(
 serverless
-firebase-tools
 netlify-cli
 )
 
@@ -106,10 +101,15 @@ for yarn in "${yarns[@]}"; do
   yarn global add $yarn
 done
 
+# kubectl install
+gcloud init
+gcloud components update
+gcloud components install kubectl
+
 cat << END
 
 **************************************************
 DOTFILES SETUP FINISHED! bye.
 **************************************************
 
-                            END
+END

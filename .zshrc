@@ -246,3 +246,13 @@ tmux_automatically_attach_session
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 eval "$(starship init zsh)"
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/yuta_yamamoto/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/yuta_yamamoto/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/yuta_yamamoto/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/yuta_yamamoto/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /Users/yuta_yamamoto/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/yuta_yamamoto/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
