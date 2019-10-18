@@ -22,6 +22,7 @@ dive
 docker-compose
 kubectx
 kustomize
+kubetail
 goenv
 ghkw
 git
@@ -54,7 +55,7 @@ zsh-completions
 
 "brew tap..."
 brew tap sanemat/font
-
+brew tap johanhaleby/kubetail
 
 echo "start brew install apps..."
 for formula in "${formulas[@]}"; do
