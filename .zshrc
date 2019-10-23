@@ -33,12 +33,13 @@ zplug load
 
 ###
 zsh_conf=~/.zsh/conf
-. $zsh_conf/docker-init.zsh    # dockerの設定
-. $zsh_conf/alias-init.zsh     # aliasの設定
-. $zsh_conf/python-init.zsh    # pythonの設定
-. $zsh_conf/node-init.zsh      # nodeの設定
-. $zsh_conf/ruby-init.zsh      # rubyの設定
-. $zsh_conf/go-init.zsh        # goの設定
+. $zsh_conf/docker-init.zsh     # dockerの設定
+. $zsh_conf/alias-init.zsh      # aliasの設定
+. $zsh_conf/python-init.zsh     # pythonの設定
+. $zsh_conf/node-init.zsh       # nodeの設定
+. $zsh_conf/ruby-init.zsh       # rubyの設定
+. $zsh_conf/go-init.zsh         # goの設定
+. $zsh_conf/kubernetes-conf.zsh # k8sの設定
 . $zsh_conf/path.zsh
 . $zsh_conf/fzf-functions.zsh
 . $zsh_conf/gcloud-sdk-init.zsh
