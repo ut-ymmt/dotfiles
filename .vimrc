@@ -1,207 +1,220 @@
-"プラグイン
-if &compatible
-  set nocompatible
+" Leaderをスペースにする
+let mapleader = "\<Space>"
+
+" runtimepathにカスタマイズ用の設定ディレクトリを追加
+set runtimepath+=$HOME/.vim/after/
+
+""""""""""""""""""""""""""""""""""""""""
+" dein
+""""""""""""""""""""""""""""""""""""""""
+" プラグインが実際にインストールされるディレクトリ
+let s:dein_dir = expand('~/.cache/dein')
+" dein.vim 本体
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+" dein.vim がなければ github から落としてくる
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-call dein#begin(expand('~/.vim/dein'))
+" 設定開始
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
 
-call dein#add('Shougo/dein.vim')
-call dein#add('Shougo/vimproc.vim', {'build': 'make'})
-call dein#add('itchyny/lightline.vim')
-call dein#add('Shougo/neocomplete.vim')
-call dein#add('Shougo/neosnippet-snippets')
-call dein#add('Shougo/neocomplcache.vim')
-call dein#add('scrooloose/nerdtree')
-call dein#add('derekwyatt/vim-scala')
+  " プラグインリストを収めた TOML ファイル
+  " 予め TOML ファイル（後述）を用意しておく
+  let g:rc_dir    = expand('~/.vim')
+  let s:toml      = g:rc_dir . '/dein.toml'
+  let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
 
-" markdown
-call dein#add('plasticboy/vim-markdown')
-call dein#add('kannokanno/previm')
-call dein#add('tyru/open-browser.vim')
+  " TOML を読み込み、キャッシュしておく
+  call dein#load_toml(s:toml,      {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
 
-" tweetvim
-call dein#add('basyura/TweetVim')
-call dein#add('mattn/webapi-vim')
-call dein#add('basyura/twibill.vim')
-call dein#add('tyru/open-browser.vim')
-call dein#add('h1mesuke/unite-outline')
-call dein#add('basyura/bitly.vim')
-call dein#add('Shougo/unite.vim')
+  " 設定終了
+  call dein#end()
+  call dein#save_state()
+endif
 
-" terraformc
-call dein#add('hashivim/vim-terraform')
-call dein#add('juliosueiras/vim-terraform-completion')
-
-call dein#end()
-filetype plugin indent on
-
+" もし、未インストールものものがあったらインストール
 if dein#check_install()
-    call dein#install()
+  call dein#install()
 endif
 
+filetype plugin indent on
+syntax enable
 
-" setting
-set fenc=utf-8
-set nobackup
-set noswapfile
-set autoread
-set hidden
-set showcmd
-set backspace=2
-
-" 見た目系
+""""""""""""""""""""""""""""""""""""""""
+" 基本設定
+""""""""""""""""""""""""""""""""""""""""
+" 行番号を表示
 set number
-set cursorline
+" 行列番号を表示する
+set ruler
+" 入力中のコマンドを表示する
+set showcmd
+" シンタックスハイライト
+syntax on
+" カラースキーマ
+set t_Co=256
+set background=dark
+colorscheme jellybeans
 
-" スペース
-set list
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
-
-"set cursorcolumn
-set virtualedit=onemore
+" エンコード
+set encoding=utf8
+" ファイルエンコード
+set fileencoding=utf-8
+" スクロールする時に下が見えるようにする
+set scrolloff=5
+" 新しいウィンドウを下に開く
+set splitbelow
+" 新しいウィンドウを右に開く
+set splitright
+" .swapファイルを作らない
+set noswapfile
+" バックアップファイルを作らない
+set nowritebackup
+" バックアップをしない
+set nobackup
+" バックスペースで各種消せるようにする
+set backspace=indent,eol,start
+" ビープ音を消す
+set vb t_vb=
+set novisualbell
+" マウス操作を有効にする
+set mouse=a
+" 端末224桁制限を超えて画面の右端でもマウスが使えるようにする
+if !has('nvim')
+  " neovimではデフォルトでマウスサポートしているので不要
+  set ttymouse=sgr
+endif
+" OSのクリップボードを使う
+set clipboard=unnamed
+" 改行時に前の行のインデントを継続する
+set autoindent
+" 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
 set smartindent
-set visualbell
+" タブ文字の表示幅
+set tabstop=2
+" Vimが挿入するインデントの幅
+set shiftwidth=2
+" タブ入力を複数の空白入力に置き換える
+set expandtab
+" 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
+set smarttab
+
+" 不可視文字を表示する
+set list
+set listchars=tab:»\ ,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
+
+""""""""""""""""""""""""""""""
+" 全角スペースの表示
+""""""""""""""""""""""""""""""
+function! ZenkakuSpace()
+    highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgrey
+endfunction
+
+if has('syntax')
+    augroup ZenkakuSpace
+        autocmd!
+        autocmd ColorScheme * call ZenkakuSpace()
+        autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
+    augroup END
+    call ZenkakuSpace()
+endif
+""""""""""""""""""""""""""""""
+
+" カレント行ハイライトが重いときがあるので欲しいときだけトグルで有効化する
+nnoremap <Leader>l :set cursorline! cursorcolumn!<CR>
+" カレント行にアンダーラインを引く
+highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
+" 対応括弧をハイライト表示する
 set showmatch
-set laststatus=2
-set wildmode=list:longest
+" 小文字の検索でも大文字も見つかるようにする
+set ignorecase
+" 検索結果をハイライト表示する
+set hlsearch
+" 検索結果のハイライトが重いときがあるので欲しいときだけトグルで有効化する
+nnoremap <Leader>L :set hlsearch!<CR>
+" スペルチェックから日本語を除外
+" スペルチェックはファイルタイプごとに設定するのでここでは有効化しない
+set spelllang=en,cjk
+
+" 小文字のみで検索したときに大文字小文字を無視する
+set smartcase
+" 検索ワードの最初の文字を入力した時点で検索を開始する
+set incsearch
+" カーソル下の単語を * で検索
+vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v, '\/'), "\n", '\\n', 'g')<CR><CR>
+" ファイルタイプごとの単語の定義のカスタマイズ
+autocmd BufRead,BufNewFile *.rb set iskeyword+=?,!
+
+" 拡張正規表現をデフォルトにする
+nnoremap / /\v
+nnoremap ? ?\v
+
+" tagジャンプ候補が複数あるときは一覧表示
+nnoremap <C-]> g<C-]>
+
+" 表示行単位で上下移動するようにする
 nnoremap j gj
 nnoremap k gk
+nnoremap <Down> gj
+nnoremap <Up>   gk
+" 行単位で移動したいときのために入れ替える
+nnoremap gj j
+nnoremap gk k
 
+" 行頭の左と行末の右で前後の行に移動できるようにする
+set whichwrap=b,s,h,l,<,>,[,],~
 
-" Tab系
-set expandtab
-set tabstop=2
-set shiftwidth=2
+" Ctrl + hjklだけでウィンドウ移動できるようにする
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
 
-"検索系
-set ignorecase
-set smartcase
-set incsearch
-set wrapscan
-set hlsearch
-nmap <Esc><Esc> :nohlsearch<CR><Esc>
+" バッファの移動
+nnoremap sbp :bprevious<CR>
+nnoremap sbn :bnext<CR>
+nnoremap sbb :b#<CR>
 
-"クリップボード共有
-set clipboard+=unnamed
+" ロケーションリストの移動
+nnoremap slp :lprevious<CR>
+nnoremap sln :lnext<CR>
+nnoremap sll :lnext<CR>
 
-"カラースキーム
-colorscheme monokai
-set background=dark
-syntax on
-if !has('gui_running')
-    set t_Co=256
-endif
+" QuickFixの移動
+nnoremap scp :cprevious<CR>
+nnoremap scn :cnext<CR>
+nnoremap scc :cnext<CR>
 
-" scalaが拡張子のファイルはファイルタイプをscalaとして読みこむ
-au BufNewFile,BufRead *.scala setf scala
+" Ctrl + 左右キーでタブローテーション
+nnoremap <c-Left> gT
+nnoremap <c-Right> gt
 
-" scala補完
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+" ノーマルモードのままで空行を挿入する
+nnoremap <Leader><CR> :<C-u>call append(expand('.'), '')<Cr>j
+" ノーマルモードに戻る待ち時間を減らすためESCキーのタイムアウトを短くする
+set timeout timeoutlen=1000
+" 日本語入力がたまに制御コードと認識されてしまうので、端末のキーコードについてタイムアウトする
+set ttimeout
+set ttimeoutlen=50
 
-" Define dictionary.
-let g:neocomplcache_dictionary_filetype_lists = {
-      \ 'default' : ''
-      \ }
+" コピペで連続ペーストできるようにする
+vnoremap gp "0p
+vnoremap gdd "_dd
 
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplcache#undo_completion()
-inoremap <expr><C-l>     neocomplcache#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return neocomplcache#smart_close_popup() . "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplcache#close_popup()
-inoremap <expr><C-e>  neocomplcache#cancel_popup()
-
-" keybined
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
-
-"PreVim
-augroup PrevimSettings
-    autocmd!
-    autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
-augroup END
-
-" lightline系
-let g:lightline = {
-      \ 'colorscheme': 'powerline',
-      \ 'mode_map': {'c': 'NORMAL'},
-      \ 'active': {
-      \   'left': [ ['mode', 'paste'], ['fugitive', 'filename', 'cakephp', 'currenttag', 'anzu'] ]
-      \ },
-      \ 'component': {
-      \   'lineinfo': '%3l:%-2v',
-      \ },
-      \ 'component_function': {
-      \   'modified': 'MyModified',
-      \   'readonly': 'MyReadonly',
-      \   'fugitive': 'MyFugitive',
-      \   'filename': 'MyFilename',
-      \   'fileformat': 'MyFileformat',
-      \   'filetype': 'MyFiletype',
-      \   'fileencoding': 'MyFileencoding',
-      \   'mode': 'MyMode',
-      \   'anzu': 'anzu#search_status',
-      \ }
-      \ }
-
-function! MyModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-
-function! MyReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? ' ' : ''
-endfunction
-
-function! MyFilename()
-  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \  &ft == 'unite' ? unite#get_status_string() :
-        \  &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-        \ ('' != MyModified() ? ' ' . MyModified() : '')
-endfunction
-
-function! MyFugitive()
-  try
-    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head())
-      return ' ' . fugitive#head()
-    endif
-  catch
-  endtry
-  return ''
-endfunction
-
-function! MyFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
-function! MyFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! MyFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! MyMode()
-  return winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
-
+" 保存されていないファイルがあるときでも別のファイルを開けるようにする
+set hidden
+" w!! でsudoして保存
+cmap w!! w !sudo tee > /dev/null %
+" q!!ですべて廃棄して終了
+cmap q!! qall!
+" Ctrl + q で保存済みのバッファをすべて閉じる
+nnoremap <c-q> :qall<CR>
+" ファイラを開く
+nnoremap <silent><C-e> :NERDTreeToggle<CR>"
